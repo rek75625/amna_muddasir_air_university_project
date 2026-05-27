@@ -1,5 +1,5 @@
 from random import randint
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import SQLAlchemyError
 from faker import Faker
 from . import db
 from .models import User, Post
@@ -21,7 +21,7 @@ def users(count=100):
         try:
             db.session.commit()
             i += 1
-        except IntegrityError:
+        except SQLAlchemyError:
             db.session.rollback()
 
 
