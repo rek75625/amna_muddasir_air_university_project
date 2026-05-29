@@ -1,13 +1,8 @@
 #!/bin/sh
-source venv/bin/activate
 
-while true; do
-    flask deploy
-    if [[ "$?" == "0" ]]; then
-        break
-    fi
-    echo Deploy command failed, retrying in 5 secs...
-    sleep 5
-done
+export FLASK_APP=flasky.py
+export FLASK_CONFIG=production
 
-exec gunicorn -b :5000 --access-logfile - --error-logfile - flasky:app
+flask deploy
+
+exec gunicorn --bind 0.0.0.0:5000 "flasky:app"
